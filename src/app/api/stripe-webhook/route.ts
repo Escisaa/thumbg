@@ -22,7 +22,7 @@ export async function POST(req: Request) {
     console.log("Webhook event received:", event.type);
 
     if (event.type === "checkout.session.completed") {
-      const session = event.data.object as Stripe.Checkout.Session;
+      const session = event.data.object; // No type assertion needed here
       console.log("Processing completed checkout session:", session.id);
 
       // Retrieve the session with line items

@@ -11,7 +11,6 @@ import {
   Clock,
   Palette,
   Wand2,
-  Check,
   ArrowRight,
 } from "lucide-react";
 import {
@@ -282,7 +281,7 @@ export default async function HomePage() {
             Pricing
           </h2>
           <p className="max-w-[85%] leading-normal text-muted-foreground sm:text-lg sm:leading-7">
-            Choose the plan that's right for you
+            Choose the plan that&apos;s right for&apos; you
           </p>
         </div>
         <div className="mx-auto mt-16 grid max-w-5xl gap-6 md:grid-cols-3">

@@ -8,6 +8,7 @@ import { db } from "~/server/db";
 import Stripe from "stripe";
 
 export const redirectToBillingSession = async (priceId: string) => {
+  // Ensure priceId is valid
   if (
     ![env.STRIPE_10_PACK, env.STRIPE_25_PACK, env.STRIPE_100_PACK].includes(
       priceId,
@@ -16,8 +17,10 @@ export const redirectToBillingSession = async (priceId: string) => {
     throw new Error("Invalid priceId");
   }
 
+  // Get the current session
   const serverSession = await getServerSession(authOptions);
 
+  // Retrieve the user from the database
   const user = await db.user.findUnique({
     where: {
       id: serverSession?.user.id,
@@ -27,20 +30,24 @@ export const redirectToBillingSession = async (priceId: string) => {
     },
   });
 
+  // Ensure the user has a Stripe customer ID
   if (!user?.stripeCustomerId) {
     throw new Error("User has no stripeCustomerId");
   }
 
   const stripe = new Stripe(env.STRIPE_SECRET_KEY);
 
+  // Create a checkout session with Stripe
   const session = await stripe.checkout.sessions.create({
     line_items: [{ price: priceId, quantity: 1 }],
     customer: user.stripeCustomerId,
     mode: "payment",
-    success_url: `${env.BASE_URL}/api/session-callback`,
+    success_url: `${env.BASE_URL}/dashboard`, // Redirect to the dashboard after a successful payment
   });
 
+  // Ensure that the session URL was created successfully
   if (!session.url) throw new Error("No session URL");
 
+  // Redirect the user to the Stripe checkout page
   redirect(session.url);
 };

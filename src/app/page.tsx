@@ -285,9 +285,9 @@ export default async function HomePage() {
           </p>
         </div>
         <div className="mx-auto mt-16 grid max-w-5xl gap-6 md:grid-cols-3">
-          <PricingCard pricing="$2" credits="10" />
-          <PricingCard pricing="$5" credits="25" />
-          <PricingCard pricing="$10" credits="100" />
+          <PricingCard pricing="$10" credits="10" />
+          <PricingCard pricing="$20" credits="25" />
+          <PricingCard pricing="$50" credits="100" />
         </div>
       </section>
 

@@ -7,7 +7,9 @@ const stripe = new Stripe(env.STRIPE_SECRET_KEY);
 
 export async function POST(req: Request) {
   try {
-    const body = await req.text();
+    // Get the raw request body as text
+    const body = await req.text(); // Important to get raw body
+
     const sig = headers().get("Stripe-Signature");
     const webhookSecret = env.STRIPE_WEBHOOK_SECRET;
 
@@ -18,12 +20,12 @@ export async function POST(req: Request) {
       });
     }
 
+    // Pass the raw body and signature to constructEvent
     const event = stripe.webhooks.constructEvent(body, sig, webhookSecret);
     console.log("Webhook event received:", event.type);
 
     if (event.type === "checkout.session.completed") {
-      const session = event.data.object; // No type assertion needed here
-      console.log("Processing completed checkout session:", session.id);
+      const session = event.data.object;
 
       // Retrieve the session with line items
       const retrievedSession = await stripe.checkout.sessions.retrieve(

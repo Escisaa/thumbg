@@ -46,7 +46,10 @@ export const redirectToBillingSession = async (priceId: string) => {
     line_items: [{ price: priceId, quantity: 1 }],
     customer: user.stripeCustomerId,
     mode: "payment",
-    success_url: `${env.BASE_URL}/dashboard?session_id={CHECKOUT_SESSION_ID}&token=${serverSession.user.id}`,
+    // Using absolute URL to ensure correct redirect
+    success_url: "https://www.thumbgo.co/dashboard",
+    // Keep user's authentication state
+    client_reference_id: serverSession.user.id,
   });
 
   // Ensure that the session URL was created successfully

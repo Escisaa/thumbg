@@ -20,10 +20,14 @@ export const redirectToBillingSession = async (priceId: string) => {
   // Get the current session
   const serverSession = await getServerSession(authOptions);
 
+  if (!serverSession?.user?.id) {
+    throw new Error("User not authenticated");
+  }
+
   // Retrieve the user from the database
   const user = await db.user.findUnique({
     where: {
-      id: serverSession?.user.id,
+      id: serverSession.user.id,
     },
     select: {
       stripeCustomerId: true,
@@ -42,7 +46,7 @@ export const redirectToBillingSession = async (priceId: string) => {
     line_items: [{ price: priceId, quantity: 1 }],
     customer: user.stripeCustomerId,
     mode: "payment",
-    success_url: `${env.BASE_URL}/dashboard`, // Redirect to the dashboard after a successful payment
+    success_url: `${env.BASE_URL}/dashboard?session_id={CHECKOUT_SESSION_ID}&token=${serverSession.user.id}`,
   });
 
   // Ensure that the session URL was created successfully

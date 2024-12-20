@@ -32,6 +32,11 @@ export const env = createEnv({
     STRIPE_10_PACK: z.string(),
     STRIPE_25_PACK: z.string(),
     STRIPE_100_PACK: z.string(),
+
+    // Add the Prisma database URLs here
+    POSTGRES_PRISMA_URL: z.string(),
+    POSTGRES_URL_NON_POOLING: z.string(),
+    DATABASE_URL: z.string(), // Added DATABASE_URL here for Prisma
   },
 
   /**
@@ -62,12 +67,18 @@ export const env = createEnv({
     STRIPE_10_PACK: process.env.STRIPE_10_PACK,
     STRIPE_25_PACK: process.env.STRIPE_25_PACK,
     STRIPE_100_PACK: process.env.STRIPE_100_PACK,
+    // Include Prisma variables here for runtime access if needed
+    POSTGRES_PRISMA_URL: process.env.POSTGRES_PRISMA_URL,
+    POSTGRES_URL_NON_POOLING: process.env.POSTGRES_URL_NON_POOLING,
+    DATABASE_URL: process.env.DATABASE_URL, // Added DATABASE_URL here
   },
+
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially
    * useful for Docker builds.
    */
   skipValidation: !!process.env.SKIP_ENV_VALIDATION,
+
   /**
    * Makes it so that empty strings are treated as undefined. `SOME_VAR: z.string()` and
    * `SOME_VAR=''` will throw an error.

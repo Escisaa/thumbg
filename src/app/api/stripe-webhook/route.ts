@@ -6,61 +6,101 @@ import { db } from "~/server/db";
 const stripe = new Stripe(env.STRIPE_SECRET_KEY);
 
 export async function POST(req: Request) {
-  const body = await req.text();
-  const sig = headers().get("Stripe-Signature");
-  const webhookSecret = env.STRIPE_WEBHOOK_SECRET;
-  let event: Stripe.Event;
-
   try {
-    if (!sig || !webhookSecret) return;
-    event = stripe.webhooks.constructEvent(body, sig, webhookSecret);
-  } catch (err) {
-    return new Response(`Webhook Error`, { status: 400 });
-  }
+    const body = await req.text();
+    const sig = headers().get("Stripe-Signature");
+    const webhookSecret = env.STRIPE_WEBHOOK_SECRET;
 
-  switch (event.type) {
-    case "checkout.session.completed":
-      const session = event.data.object;
-      const customerId = session.customer as string;
+    if (!sig || !webhookSecret) {
+      console.error("Missing signature or webhook secret");
+      return new Response("Missing signature or webhook secret", {
+        status: 400,
+      });
+    }
 
-      const retrivedSession = await stripe.checkout.sessions.retrieve(
+    const event = stripe.webhooks.constructEvent(body, sig, webhookSecret);
+    console.log("Webhook event received:", event.type);
+
+    if (event.type === "checkout.session.completed") {
+      const session = event.data.object as Stripe.Checkout.Session;
+      console.log("Processing completed checkout session:", session.id);
+
+      // Retrieve the session with line items
+      const retrievedSession = await stripe.checkout.sessions.retrieve(
         session.id,
         { expand: ["line_items"] },
       );
 
-      const lineItems = retrivedSession.line_items;
-      if (lineItems && lineItems.data.length > 0) {
-        const priceId = lineItems.data[0]?.price?.id ?? undefined;
+      const priceId = retrievedSession.line_items?.data[0]?.price?.id;
+      const customerId = session.customer as string;
 
-        // Update user credits based on the priceId
-        if (priceId) {
-          let creditsToAdd = 0;
-
-          // Determine credits to add
-          switch (priceId) {
-            case env.STRIPE_10_PACK:
-              creditsToAdd = 10;
-              break;
-            case env.STRIPE_25_PACK:
-              creditsToAdd = 25;
-              break;
-            case env.STRIPE_100_PACK:
-              creditsToAdd = 100;
-              break;
-          }
-
-          if (creditsToAdd > 0) {
-            await db.user.update({
-              where: { stripeCustomerId: customerId },
-              data: { credits: { increment: creditsToAdd } },
-            });
-          }
-        }
+      if (!priceId || !customerId) {
+        console.error("Missing priceId or customerId", { priceId, customerId });
+        return new Response("Missing price or customer information", {
+          status: 400,
+        });
       }
-      break;
-    default:
-      console.warn("Unhandled event type: " + event.type);
-  }
 
-  return new Response(JSON.stringify({ recieved: true }));
+      // Determine credits to add
+      let creditsToAdd = 0;
+      switch (priceId) {
+        case env.STRIPE_10_PACK:
+          creditsToAdd = 10;
+          break;
+        case env.STRIPE_25_PACK:
+          creditsToAdd = 25;
+          break;
+        case env.STRIPE_100_PACK:
+          creditsToAdd = 100;
+          break;
+        default:
+          console.error("Invalid priceId:", priceId);
+          return new Response("Invalid price ID", { status: 400 });
+      }
+
+      // Find user and update credits
+      try {
+        const user = await db.user.findUnique({
+          where: { stripeCustomerId: customerId },
+          select: { id: true, credits: true },
+        });
+
+        if (!user) {
+          console.error("User not found for stripeCustomerId:", customerId);
+          return new Response("User not found", { status: 404 });
+        }
+
+        const updatedUser = await db.user.update({
+          where: { id: user.id },
+          data: { credits: { increment: creditsToAdd } },
+        });
+
+        console.log("Credits updated successfully", {
+          userId: user.id,
+          oldCredits: user.credits,
+          newCredits: updatedUser.credits,
+          added: creditsToAdd,
+        });
+
+        return new Response(
+          JSON.stringify({
+            received: true,
+            creditsAdded: creditsToAdd,
+            newTotal: updatedUser.credits,
+          }),
+        );
+      } catch (dbError) {
+        console.error("Database error:", dbError);
+        return new Response("Database error", { status: 500 });
+      }
+    }
+
+    return new Response(JSON.stringify({ received: true }));
+  } catch (err) {
+    console.error("Webhook processing error:", err);
+    return new Response(
+      `Webhook Error: ${err instanceof Error ? err.message : "Unknown error"}`,
+      { status: 400 },
+    );
+  }
 }

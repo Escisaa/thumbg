@@ -1,6 +1,5 @@
 "use client";
-
-import { IoIosCheckmarkCircleOutline, IoMdArrowBack } from "react-icons/io";
+import { IoIosCheckmarkCircleOutline } from "react-icons/io";
 import { redirectToBillingSession } from "~/app/actions/stripe";
 import { Button } from "~/components/ui/button";
 import {
@@ -39,7 +38,7 @@ const PricingCard = ({
         </div>
         <div className="flex items-center gap-2">
           <IoIosCheckmarkCircleOutline className="h-4 w-4" />
-          <p>1 credits = 1 thumbnail</p>
+          <p>1 credit = 1 thumbnail</p>
         </div>
       </CardContent>
       <CardFooter>

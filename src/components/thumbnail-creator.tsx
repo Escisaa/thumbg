@@ -254,7 +254,7 @@ const ThumbnailCreator = ({ children }: { children: React.ReactNode }) => {
           )}
         </>
       ) : (
-        <div className="mt-10 flex flex-col">
+        <div className="mt-10 flex flex-col pt-20">
           <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
             Hi there
           </h1>

@@ -32,20 +32,7 @@ function Footer() {
             Built with ❤️ for content creators. © 2024 ThumbGO.
           </p>
         </div>
-        <div className="flex gap-4">
-          <Link
-            href="/terms"
-            className="text-sm font-medium underline underline-offset-4"
-          >
-            Terms
-          </Link>
-          <Link
-            href="/privacy"
-            className="text-sm font-medium underline underline-offset-4"
-          >
-            Privacy
-          </Link>
-        </div>
+        <div className="flex gap-4"></div>
       </div>
     </footer>
   );
@@ -233,9 +220,6 @@ export default async function HomePage() {
                 {user ? "Go to Dashboard" : "Try for Free"}{" "}
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
-            </Button>
-            <Button variant="outline" size="lg">
-              View Demo
             </Button>
           </div>
         </div>

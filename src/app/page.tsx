@@ -373,6 +373,3 @@ export default async function HomePage() {
     </div>
   );
 }
-//i need you to update this section of my software, you can leave the nav bar and the hero section, the only thing you need to update in the hero section is the text, where you should display that this is for youtubers/content creators so i would like you to add an icon maybe the youtube icon, but leave eveyrhting else as it is in the hero section
-//i need you to leave the rest of the code as it is, the only thing i need you to do is to create a section of maybe even update the feature section if you would like if that is not fit dont dont, but what i would like is that you create a section where you display the images in a clean format, here is the images names: image-3.png, image-3.png, image-5.png, image-8.png, image-9.png, image-10.png
-//overall you should know that this is a product that i hvae been working on and it is a thumbnal generator saas, now you do not need to do anything else except what i told you, so please remember to make everything in one page like i hvae showed you.

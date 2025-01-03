@@ -12,6 +12,7 @@ import {
   Palette,
   Wand2,
   ArrowRight,
+  Youtube,
 } from "lucide-react";
 import {
   Accordion,
@@ -159,6 +160,15 @@ function Comparison() {
 export default async function HomePage() {
   const user = await getServerSession(authOptions);
 
+  const images = [
+    "image-3.png",
+    "image-4.png",
+    "image-5.png",
+    "image-8.png",
+    "image-9.png",
+    "image-10.png",
+  ];
+
   return (
     <div className="flex h-full flex-col items-center overflow-y-scroll px-6 py-6">
       {/* Header */}
@@ -193,18 +203,20 @@ export default async function HomePage() {
         </div>
       </header>
 
-      {/* Hero Section with Framer */}
+      {/* Hero Section with YouTube Icon */}
       <section className="container px-4 py-24 md:px-6">
         <div className="flex flex-col items-center gap-8 text-center">
-          <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
-            Easier Thumbnails <br />
-            <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              for Creators
-            </span>
-          </h1>
+          <div className="flex items-center gap-4">
+            <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
+              Easier Thumbnails <br />
+              <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                for Creators
+              </span>
+            </h1>
+          </div>
           <p className="max-w-[700px] text-lg text-muted-foreground md:text-xl">
-            Thumbnails with text behind the foreground are popular, but take
-            time to make manually. Generate them automatically with this tool.
+            Create eye-catching thumbnails that boost your views. Perfect for
+            YouTubers and content creators who want to stand out.
           </p>
           <Image
             src="/main.png"
@@ -227,6 +239,63 @@ export default async function HomePage() {
 
       {/* Comparison Section */}
       <Comparison />
+
+      {/* Gallery Section */}
+      <section className="container py-24">
+        <div className="mx-auto flex max-w-[58rem] flex-col items-center space-y-4 text-center">
+          <h2 className="text-3xl font-bold leading-[1.1] sm:text-3xl md:text-6xl">
+            Created with ThumbGO
+          </h2>
+          <p className="max-w-[85%] leading-normal text-muted-foreground sm:text-lg sm:leading-7">
+            See what other creators have made
+          </p>
+        </div>
+        <div className="mx-auto mt-16 grid max-w-7xl grid-cols-1 gap-4 md:grid-cols-6">
+          {/* Large featured image */}
+          <div className="row-span-2 overflow-hidden rounded-lg shadow-lg transition-transform hover:scale-[1.02] md:col-span-4">
+            <img
+              src={images[0]}
+              alt="Featured thumbnail example"
+              className="aspect-[16/9] h-full w-full object-cover"
+            />
+          </div>
+
+          {/* Smaller image */}
+          <div className="overflow-hidden rounded-lg shadow-lg transition-transform hover:scale-[1.02] md:col-span-2">
+            <img
+              src={images[1]}
+              alt="Thumbnail example 2"
+              className="aspect-[16/9] h-full w-full object-cover"
+            />
+          </div>
+
+          {/* Smaller image */}
+          <div className="overflow-hidden rounded-lg shadow-lg transition-transform hover:scale-[1.02] md:col-span-2">
+            <img
+              src={images[2]}
+              alt="Thumbnail example 3"
+              className="aspect-[16/9] h-full w-full object-cover"
+            />
+          </div>
+
+          {/* Medium images row */}
+          <div className="overflow-hidden rounded-lg shadow-lg transition-transform hover:scale-[1.02] md:col-span-3">
+            <img
+              src={images[3]}
+              alt="Thumbnail example 4"
+              className="aspect-[16/9] h-full w-full object-cover"
+            />
+          </div>
+
+          <div className="overflow-hidden rounded-lg shadow-lg transition-transform hover:scale-[1.02] md:col-span-3">
+            <img
+              src={images[4]}
+              alt="Thumbnail example 5"
+              className="aspect-[16/9] h-full w-full object-cover"
+            />
+          </div>
+        </div>
+      </section>
 
       {/* Features Section */}
       <section className="container py-24" id="features">
@@ -265,7 +334,7 @@ export default async function HomePage() {
             Pricing
           </h2>
           <p className="max-w-[85%] leading-normal text-muted-foreground sm:text-lg sm:leading-7">
-            Choose the plan that&apos;s right for&apos; you
+            Choose the plan that's right for you
           </p>
         </div>
         <div className="mx-auto mt-16 grid max-w-5xl gap-6 md:grid-cols-3">
@@ -304,3 +373,6 @@ export default async function HomePage() {
     </div>
   );
 }
+//i need you to update this section of my software, you can leave the nav bar and the hero section, the only thing you need to update in the hero section is the text, where you should display that this is for youtubers/content creators so i would like you to add an icon maybe the youtube icon, but leave eveyrhting else as it is in the hero section
+//i need you to leave the rest of the code as it is, the only thing i need you to do is to create a section of maybe even update the feature section if you would like if that is not fit dont dont, but what i would like is that you create a section where you display the images in a clean format, here is the images names: image-3.png, image-3.png, image-5.png, image-8.png, image-9.png, image-10.png
+//overall you should know that this is a product that i hvae been working on and it is a thumbnal generator saas, now you do not need to do anything else except what i told you, so please remember to make everything in one page like i hvae showed you.

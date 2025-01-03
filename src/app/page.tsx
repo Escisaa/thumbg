@@ -12,7 +12,6 @@ import {
   Palette,
   Wand2,
   ArrowRight,
-  Youtube,
 } from "lucide-react";
 import {
   Accordion,
@@ -254,7 +253,7 @@ export default async function HomePage() {
           {/* Large featured image */}
           <div className="row-span-2 overflow-hidden rounded-lg shadow-lg transition-transform hover:scale-[1.02] md:col-span-4">
             <img
-              src={images[0]}
+              src="image-3.png"
               alt="Featured thumbnail example"
               className="aspect-[16/9] h-full w-full object-cover"
             />
@@ -263,7 +262,7 @@ export default async function HomePage() {
           {/* Smaller image */}
           <div className="overflow-hidden rounded-lg shadow-lg transition-transform hover:scale-[1.02] md:col-span-2">
             <img
-              src={images[1]}
+              src="image-4.png"
               alt="Thumbnail example 2"
               className="aspect-[16/9] h-full w-full object-cover"
             />
@@ -272,7 +271,7 @@ export default async function HomePage() {
           {/* Smaller image */}
           <div className="overflow-hidden rounded-lg shadow-lg transition-transform hover:scale-[1.02] md:col-span-2">
             <img
-              src={images[2]}
+              src="image-5.png"
               alt="Thumbnail example 3"
               className="aspect-[16/9] h-full w-full object-cover"
             />
@@ -281,7 +280,7 @@ export default async function HomePage() {
           {/* Medium images row */}
           <div className="overflow-hidden rounded-lg shadow-lg transition-transform hover:scale-[1.02] md:col-span-3">
             <img
-              src={images[3]}
+              src="image-8.png"
               alt="Thumbnail example 4"
               className="aspect-[16/9] h-full w-full object-cover"
             />
@@ -289,7 +288,7 @@ export default async function HomePage() {
 
           <div className="overflow-hidden rounded-lg shadow-lg transition-transform hover:scale-[1.02] md:col-span-3">
             <img
-              src={images[4]}
+              src="image-9.png"
               alt="Thumbnail example 5"
               className="aspect-[16/9] h-full w-full object-cover"
             />
@@ -334,7 +333,7 @@ export default async function HomePage() {
             Pricing
           </h2>
           <p className="max-w-[85%] leading-normal text-muted-foreground sm:text-lg sm:leading-7">
-            Choose the plan that's right for you
+            Choose the plan that &apos;s right for you
           </p>
         </div>
         <div className="mx-auto mt-16 grid max-w-5xl gap-6 md:grid-cols-3">
